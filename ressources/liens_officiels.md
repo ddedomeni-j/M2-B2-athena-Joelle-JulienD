@@ -31,6 +31,7 @@ Dernière vérification : 2026-05-25
   - Définit anonyme vs pseudonymisé.
 - **OWASP — Data Anonymization** : <https://owasp.org/www-community/Data_Anonymization>
 - **AI Act européen** : <https://artificialintelligenceact.eu/the-act/>
+  - *Pour Athéna (RH) : voir Annexe III — emploi et gestion des travailleurs = « haut risque ».* <https://artificialintelligenceact.eu/annex/3/>
 
 ## Datasets
 

@@ -34,6 +34,18 @@
 
 ...
 
+## Cadre réglementaire — RGPD + AI Act
+
+> Deux textes, deux angles : positionne tes choix face aux **deux**.
+
+- **RGPD** (données personnelles) : minimisation, finalité, droit à l'effacement.
+  Mon anonymisation y répond par : ...
+- **AI Act** (règlement UE 2024, risque classé par usage) : un système qui exploite
+  des **commentaires RH** pour évaluer des personnes relève potentiellement du
+  **« haut risque »** (emploi / gestion des travailleurs = Annexe III) → exigences
+  renforcées de **qualité des données, traçabilité et supervision humaine**. En quoi
+  mon audit + mon anonymisation y contribuent : ...
+
 ## Limites de ma stratégie
 
 > Qu'est-ce que ma fonction `anonymize_comments` rate ? Quels faux positifs
