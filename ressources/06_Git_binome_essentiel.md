@@ -35,6 +35,13 @@ binôme. Si vous installez les bons réflexes maintenant, ça paye 4 fois.
 
 ## Conventions binôme
 
+> 💡 **Le workflow ci-dessous est une _convention_, pas une contrainte
+> technique.** L'objectif réel, c'est la **coordination** (ne pas s'écraser, se
+> relire, tracer qui a produit quoi) — pas le respect d'un protocole exact. Si
+> ton binôme trouve une organisation qui coordonne mieux, garde l'esprit
+> (driver/navigator, switch régulier, commits signés à deux) et adapte la
+> lettre. Ce qui compte : que personne ne soit bloqué et que le duo produise.
+
 ### En sync mercredi
 
 1. **Un seul écran partagé** sur Discord (le driver share). Pas 2 écrans.

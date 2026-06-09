@@ -18,7 +18,7 @@ Ton choix dépend :
 **Important** : il n'y a pas de "bonne" stratégie universelle — il y a
 **ta** stratégie défendue dans `reflexion.md`.
 
-## Les 4 stratégies
+## Concepts clés — les 4 stratégies
 
 ### 1. **Suppression / masking**
 Remplace l'entité par un placeholder fixe.
@@ -69,9 +69,29 @@ Empreinte cryptographique **irréversible**.
 - ❌ Le hash sans sel permet la ré-identification par dictionnaire (rainbow
   table) — toujours saler
 
+## ⚠️ Vocabulaire légal : PII ≠ pseudonymisation ≠ anonymisation
+
+Trois notions que le RGPD distingue nettement, et qu'on confond souvent :
+
+- **PII détectée ≠ donnée anonymisée.** Repérer une PII (spaCy, regex) ne la
+  protège pas — c'est l'étape *avant* le traitement, pas le traitement.
+- **Pseudonymisation** (RGPD, **art. 4-5**) : la donnée ne peut plus être
+  attribuée à une personne **sans information supplémentaire** (un sel, une
+  table de correspondance, une clé) conservée à part. La donnée reste
+  **personnelle** → le RGPD **s'applique toujours**.
+- **Anonymisation** (RGPD, **considérant 26**) : ré-identification
+  **irréversible et raisonnablement impossible**, même en croisant d'autres
+  sources. La donnée sort alors du périmètre RGPD.
+
+> 🔑 **Le hash est une _pseudonymisation_, pas une anonymisation légale.** Même
+> salé, l'espace des noms est fini : qui possède le sel peut re-hasher la liste
+> des noms et ré-identifier. Donc la colonne « RGPD-friendly » ci-dessous
+> signifie « **réduit le risque** », **pas** « sort la donnée du RGPD ». Seule
+> la **suppression** (sans table) s'en approche réellement.
+
 ## Comparaison synthétique
 
-| Stratégie | Lisibilité | Réversibilité | Cohérence | RGPD-friendly |
+| Stratégie | Lisibilité | Réversibilité | Cohérence | Réduit le risque RGPD |
 |---|---|---|---|---|
 | Suppression | ❌ | ❌ | ❌ | ✅✅ |
 | Substitution (avec map) | ✅ | ❌ (si pas de cache) | ✅ avec map persistée | ✅ |

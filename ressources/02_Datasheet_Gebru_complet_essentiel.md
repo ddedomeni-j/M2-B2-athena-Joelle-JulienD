@@ -105,10 +105,26 @@ Auteurs binôme + version + date + canal de signalement de problème.
 
 **Résumé verdict éthique** (cf. notebook audit) :
 - DI `sex` : 0.36 → biais majeur (femmes désavantagées)
-- DI `race` : 0.17 → biais majeur (groupes non-blancs désavantagés)
-- DI intersectionnel `sex × race` : 0.09 → **biais structurel critique**
+- DI `race` : 0.35 → biais majeur (groupes non-blancs désavantagés)
+- DI intersectionnel `sex × race` : 0.16 → **biais structurel critique**
 - Risque PII : 100 % des `manager_comments` contiennent au moins 1 PII
 ```
+
+## Exercice guidé
+
+En binôme, complétez **la section 2 (Composition)** de la datasheet Athéna à
+partir des résultats de votre notebook d'audit :
+
+1. Listez les colonnes et leur type (numérique / catégorielle / texte libre).
+2. Marquez explicitement les **variables sensibles** (`sex`, `race`,
+   `marital_status`, `native_country`) et la colonne à PII (`manager_comments`).
+3. Reportez le **résumé verdict éthique chiffré** (les 3 DI + l'intersection)
+   calculés dans votre notebook — pas des valeurs approximatives.
+4. Ajoutez une phrase « Usages à éviter » spécifique au contexte RH.
+
+**Attendu** : une section *Composition* qu'un DPO non-technicien comprend en
+2 minutes, avec les chiffres exacts de votre audit (et non recopiés du
+mini-cours).
 
 ## Pièges fréquents
 

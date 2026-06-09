@@ -20,9 +20,13 @@ C'est la **base** d'un audit éthique sérieux. En M7-M8 on ira plus loin
 (autres métriques : Equalized Odds, Statistical Parity Difference, etc.).
 En M2-B2 on s'arrête au DI agrégé + intersectionnalité simple.
 
-**Pourquoi l'intersectionnalité compte** : le DI peut être OK sur `sex` (0.85)
-et OK sur `race` (0.88), mais catastrophique sur `sex × race` (femmes
-noires : DI 0.45). On ne peut pas voir ça sans croiser.
+**Pourquoi l'intersectionnalité compte** : sur Adult Income, le DI est déjà
+alarmant variable par variable (`sex` ≈ 0.36, `race` ≈ 0.35), mais il
+**chute encore** sur le croisement `sex × race` (≈ 0.16) — un sous-groupe
+(femmes *Other* ou *Black*) bien plus pénalisé, invisible quand on regarde
+`sex` et `race` séparément. Dans d'autres jeux de données, le DI peut être OK
+sur chaque variable isolée (0.85, 0.88) et catastrophique au croisement :
+c'est tout l'intérêt de croiser.
 
 **Alternatives à connaître :**
 
@@ -45,6 +49,16 @@ noires : DI 0.45). On ne peut pas voir ça sans croiser.
 - **Direction du biais** :
   - DI < 0.8 → le groupe minoritaire est **désavantagé** (signal habituel)
   - DI > 1.25 → le groupe minoritaire est **avantagé** (rare, à investiguer aussi)
+
+> ⚠️ **Ce que le DI _n'est pas_.** Le DI utilisé ici est un **ratio simple de
+> parité statistique** (`SR_min / SR_max`), choisi comme métrique **pédagogique
+> M2** — il est **non exhaustif** : il dépend de la distribution globale et ne
+> capture pas la variance intra-groupes. En industrie on le complète par la
+> **Statistical Parity Difference (SPD)** et la **différence absolue**
+> (`SR_max − SR_min`) — cf. M7. Surtout : **le DI est un indicateur de
+> _disparité_, pas une preuve de _discrimination_.** Une disparité peut avoir
+> des causes légitimes ; établir une discrimination (légale, éthique) demande
+> le **contexte métier**, pas un seul ratio.
 
 ## Exemple minimal qui tourne
 
@@ -77,14 +91,20 @@ print(pd.DataFrame(results))
 Sortie typique :
 
 ```
-       variable     DI signal_4/5  SR_min  SR_max
-0           sex  0.358         ⚠️   0.110   0.305
-1          race  0.169         ⚠️   0.026   0.155
-2 marital_status  0.060         ⚠️   0.040   0.443
+        variable     DI signal_4/5  SR_min  SR_max
+0            sex  0.358         ⚠️   0.109   0.306
+1           race  0.347         ⚠️   0.092   0.266
+2 marital_status  0.103         ⚠️   0.046   0.447
 ```
 
-**Tous** les DI sont en dessous de 0.8 sur Adult Income — c'est un dataset
-extrêmement biaisé (et c'est pour ça qu'il est utilisé comme cas d'école).
+**Tous** les DI sont largement en dessous de 0.8 sur Adult Income — un dataset
+**fortement déséquilibré, corrélé à des inégalités socio-économiques
+structurelles** (et c'est pour ça qu'il sert de cas d'école). Attention à la
+formulation : ce déséquilibre **n'est pas** une discrimination intentionnelle
+ni un « système injuste » démontré — c'est un **recensement brut** (US Census
+1994) qui **reflète** des inégalités réelles de l'époque. Les chiffres
+ci-dessus sont **exactement** ceux que produit le code sur le dataset généré
+(seed 42) — tu dois retrouver les mêmes.
 
 ## Intersectionnalité
 
@@ -94,12 +114,16 @@ df["sex_race"] = df["sex"].str.cat(df["race"], sep="_")
 
 # Vérification de support (au moins 30 obs par modalité)
 print(df["sex_race"].value_counts())
-# Female_White                14000+
-# Male_White                  20000+
-# Female_Black                 1000+
-# Male_Black                   1000+
-# Female_Asian-Pac-Islander    400+
-# ...
+# Male_White                   19174
+# Female_White                  8642
+# Male_Black                    1569
+# Female_Black                  1555
+# Male_Asian-Pac-Islander        693
+# Female_Asian-Pac-Islander      346
+# Male_Amer-Indian-Eskimo        192
+# Male_Other                     162
+# Female_Amer-Indian-Eskimo      119
+# Female_Other                   109   ← petit support, DI fragile à signaler
 
 # DI intersectionnel
 di_intersect, sr_intersect = disparate_impact(df, "sex_race")
@@ -111,6 +135,13 @@ print(sr_intersect.sort_values())
 Tu observeras que les femmes noires ont un SR bien plus faible que les
 hommes blancs — biais structurel majeur invisible en regardant `sex` et
 `race` séparément.
+
+> ⚠️ **Variance extrême à faible support.** Quand un sous-groupe compte peu
+> d'observations (ex. `Female_Other`, n ≈ 109), le DI devient **instable** : il
+> peut varier fortement selon le seed, le split ou un simple ré-échantillonnage.
+> Les DI intersectionnels sont donc à interpréter comme **exploratoires** (« où
+> creuser ? »), **pas décisionnels** (« voici le verdict »). On les utilise pour
+> orienter l'investigation, jamais pour conclure seuls.
 
 ## Exercice guidé
 
@@ -124,11 +155,12 @@ En binôme, calcule :
 
 **Solution attendue** (verdicts approximatifs sur Adult Income) :
 
-- `sex` : DI ~0.36 → signal majeur (femmes désavantagées)
-- `race` : DI ~0.17 → signal majeur (groupes non-blancs désavantagés)
-- `native_country` (USA vs non) : DI ~0.85 → pas de signal au sens 4/5
-- `sex × race` : DI ~0.07-0.10 → **biais intersectionnel catastrophique**
-  (femmes Black ou Other vs hommes White)
+- `sex` : DI ≈ 0.36 → signal majeur (femmes désavantagées)
+- `race` : DI ≈ 0.35 → signal majeur (groupes non-blancs désavantagés)
+- `native_country` (USA vs non) : DI ≈ 0.80 → **juste au-dessus du seuil 4/5**
+  (cas limite — à signaler comme « borderline », pas comme « clean »)
+- `sex × race` : DI ≈ 0.16 → **biais intersectionnel critique** (femmes
+  *Other* / *Black* SR ≈ 0.05-0.06 vs hommes *White*/*Asian* SR ≈ 0.33)
 
 ## Pièges fréquents
 
@@ -148,7 +180,7 @@ En binôme, calcule :
 | DI = 0 exact sur intersectionnalité | Un groupe a 0 % d'outcome positif (souvent groupe minuscule) — signaler comme "non interprétable" |
 | `KeyError` sur la cible | Tu utilises `"<=50K"` vs `">50K"` (Adult ajoute parfois un `.` final) — vérifie `.value_counts()` |
 | Tous les DI > 0.8 | Bizarre sur Adult Income — vérifie que tu n'as pas pris `<=50K` comme positif |
-| Pas de signal sur `native_country` mais binarisation USA/non-USA donne signal | Normal : la binarisation **agrège** des effets, qui peuvent se renforcer ou s'annuler |
+| `native_country` brut donne DI ≈ 0 mais USA/non-USA donne DI ≈ 0.80 | Le DI brut est tiré par un micro-pays à 0 % >50K (support minuscule, non fiable) ; la binarisation **agrège** et lisse l'effet. Toujours regarder le support avant de conclure |
 
 ## Pour aller plus loin
 

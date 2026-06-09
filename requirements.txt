@@ -5,12 +5,19 @@
 pandas==2.2.2
 numpy==1.26.4
 
+# Génération du dataset (commentaires synthétiques PII, scripts/generate_dataset.py)
+faker==25.9.1
+
 # Visualisation
 matplotlib==3.9.2
 seaborn==0.13.2
 
 # NLP — détection PII
 spacy==3.7.5
+# click requis explicitement : depuis typer 0.13+, `typer-slim` n'embarque
+# plus click, et spacy 3.7.5 (via sa CLI) en a besoin pour s'importer. Sans ce
+# pin, un install frais casse sur `ModuleNotFoundError: No module named 'click'`.
+click==8.1.7
 
 # Persistance
 pyarrow==17.0.0

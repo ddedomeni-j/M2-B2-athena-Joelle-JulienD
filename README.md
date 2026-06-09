@@ -12,7 +12,7 @@
 
 ---
 
-## 🚀 Démarrage (5 commandes)
+## 🚀 Démarrage (6 commandes)
 
 ```bash
 # 0. Clone ton repo perso (ou binôme)
@@ -26,20 +26,29 @@ python -m venv .venv && source .venv/bin/activate     # Linux/macOS
 # 2. Dépendances
 pip install -r requirements.txt
 
-# 3. Modèle spaCy (~50 Mo — à télécharger une fois)
-python -m spacy download en_core_web_md    # si comments en anglais
-# OU
-python -m spacy download fr_core_news_md   # si comments en français
+# 3. Génère le dataset (Adult Income réel + commentaires synthétiques, seed 42)
+python scripts/generate_dataset.py
 
-# 4. Vérification
+# 4. Modèle spaCy (~50 Mo — à télécharger une fois)
+python -m spacy download en_core_web_md
+
+# 5. Vérification
 jupyter notebook notebooks/M2-B2_audit_template.ipynb
 ```
 
-Si ces 5 commandes marchent, ton poste est prêt.
+Si ces 6 commandes marchent, ton poste est prêt.
 
-> ⚠️ Les datasets `adult_income_with_comments.csv` et `audit_sample.csv` te
-> seront fournis mercredi 9h par la formatrice (Discord). Place-les dans
-> `data/`. Le `.gitignore` exclut `data/*.csv` du commit.
+> 📦 Les datasets `adult_income_with_comments.csv` (~32 561 lignes) et
+> `audit_sample.csv` (200 lignes) sont **générés par le script**
+> `scripts/generate_dataset.py` (graine fixe → tout le monde obtient le même
+> jeu, indispensable pour comparer les disparate impacts en restitution). Ils
+> sont git-ignorés : on ne commite pas la donnée, on la régénère.
+>
+> ⚠️ **Corpus bilingue volontaire** : ~88 % des commentaires sont en anglais,
+> ~12 % en français. Le modèle `en_core_web_md` attrapera bien les noms
+> anglais et **ratera une partie des noms français** : c'est un piège réaliste.
+> Tu le **documentes** comme une limite de ta détection (à compléter par regex
+> ou à signaler) — tu ne changes pas de modèle à chaque commentaire.
 
 ---
 
@@ -49,9 +58,11 @@ Si ces 5 commandes marchent, ton poste est prêt.
 
 ```
 M2-B2-athena-<prénom1>-<prénom2>/
+├── scripts/
+│   └── generate_dataset.py                       # produit les 2 CSV (seed 42)
 ├── data/                                         # gitignored
-│   ├── adult_income_with_comments.csv            # fourni
-│   └── audit_sample.csv                          # fourni
+│   ├── adult_income_with_comments.csv            # généré par le script
+│   └── audit_sample.csv                          # généré par le script
 ├── notebooks/
 │   └── M2-B2_audit_template.ipynb                # → audit_<prénom1>_<prénom2>.ipynb
 ├── datasheet.md                                  # à compléter en binôme (signature duo)
@@ -141,8 +152,10 @@ Cf. [`./ressources/README.md`](./ressources/README.md) pour l'ordre de mobilisat
 1. Relis le mini-cours concerné (cf. [`./ressources/README.md`](./ressources/README.md)).
 2. Si **spaCy** plante au chargement du modèle : as-tu fait
    `python -m spacy download en_core_web_md` ? (~50 Mo)
-3. Si la **détection NER** rate des noms français : utilise plutôt
-   `fr_core_news_md`.
+3. La **détection NER rate des noms français** (~12 % du corpus) : c'est
+   attendu avec `en_core_web_md`. Complète par regex, ou charge en plus
+   `fr_core_news_md` sur les commentaires détectés comme français — mais
+   surtout **documente cette limite** dans ta `reflexion.md`.
 4. En binôme : si vous bloquez à 2, **switchez** driver/navigator —
    souvent ça débloque.
 5. Demande en direct mercredi sur Discord — `fil-M2-B2`.
