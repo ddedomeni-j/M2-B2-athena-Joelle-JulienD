@@ -1,6 +1,6 @@
 # Liens officiels — M2-B2
 
-Dernière vérification : 2026-05-25
+Dernière vérification : 2026-06-10
 
 ## Documentation officielle
 
@@ -12,24 +12,23 @@ Dernière vérification : 2026-05-25
   - État : ✅ vérifié le 2026-05-25
 - **pandas — Parquet I/O** : <https://pandas.pydata.org/docs/user_guide/io.html#io-parquet>
   - État : ✅ vérifié le 2026-05-25
-- **Fairlearn — Disparity metrics** : <https://fairlearn.org/main/user_guide/assessment/disparity_metrics.html>
+- **Fairlearn — Disparity metrics** : <https://fairlearn.org/main/user_guide/assessment/common_fairness_metrics.html>
   - État : ✅ vérifié le 2026-05-25
 
 ## Articles de référence
 
 - **Gebru et al. (2018) — *Datasheets for Datasets*** : <https://arxiv.org/abs/1803.09010>
-- **Crenshaw (1989) — Intersectionnalité** : <https://chicagounbound.uchicago.edu/cgi/viewcontent.cgi?article=1052&context=uclf>
+- **Crenshaw (1989) — Intersectionnalité** : <https://chicagounbound.uchicago.edu/uclf/vol1989/iss1/8/>
   - Article fondateur du concept (sociologie, lecture pour culture générale)
 - **Barocas, Hardt, Narayanan — *Fairness and ML*** : <https://fairmlbook.org/>
   - Livre gratuit en ligne, chapitre 2 sur l'intersectionnalité.
 
 ## Cadres réglementaires
 
-- **CNIL — Anonymisation des données personnelles** : <https://www.cnil.fr/fr/lanonymisation-des-donnees-personnelles>
-- **CNIL — Données RH** : <https://www.cnil.fr/fr/rh>
-- **RGPD — Considérant 26** : <https://gdpr-text.com/read/article-recital-26>
+- **CNIL — Anonymisation des données personnelles** : <https://www.cnil.fr/fr/technologies/lanonymisation-de-donnees-personnelles>
+- **CNIL — Gestion des ressources humaines** : <https://www.cnil.fr/fr/la-gestion-des-ressources-humaines>
+- **RGPD — Considérant 26** : <https://gdpr-info.eu/recitals/no-26/>
   - Définit anonyme vs pseudonymisé.
-- **OWASP — Data Anonymization** : <https://owasp.org/www-community/Data_Anonymization>
 - **AI Act européen** : <https://artificialintelligenceact.eu/the-act/>
   - *Pour Athéna (RH) : voir Annexe III — emploi et gestion des travailleurs = « haut risque ».* <https://artificialintelligenceact.eu/annex/3/>
 

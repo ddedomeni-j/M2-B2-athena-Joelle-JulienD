@@ -150,7 +150,7 @@ mini-cours).
 
 - **Hugging Face — Dataset cards** : <https://huggingface.co/docs/datasets/dataset_card>
 - **Microsoft — Datasheets for Datasets template** : <https://www.microsoft.com/en-us/research/uploads/prod/2019/01/1803.09010.pdf>
-- **CNIL — Documentation RGPD données RH** : <https://www.cnil.fr/fr/rh>
+- **CNIL — Documentation RGPD données RH** : <https://www.cnil.fr/fr/la-gestion-des-ressources-humaines>
 
 ## Vérification (checklist binôme)
 

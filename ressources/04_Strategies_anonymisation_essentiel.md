@@ -57,14 +57,18 @@ Remplace par une **catégorie** ou un **rôle**.
 - ❌ Peut être moins lisible qu'une vraie substitution
 
 ### 4. **Hash**
-Empreinte cryptographique **irréversible**.
+Empreinte cryptographique à **sens unique** (on n'inverse pas SHA-256
+directement), **mais ré-identifiable** sur un espace fini → c'est de la
+**pseudonymisation**, pas une anonymisation.
 
 ```python
 "Allison Hill" → "a8f3..." (SHA-256 tronqué)
 ```
 
 - ✅ **Cohérence parfaite** : même PII → même hash partout
-- ✅ **Irréversible** au sens cryptographique (avec sel)
+- ✅ **Sens unique** cryptographiquement (avec sel)
+- ❌ **Ré-identifiable** sur un espace fini : qui possède le sel peut re-hasher
+  la liste des noms → **pseudonymisation**, pas anonymisation
 - ❌ **Illisible** pour un humain
 - ❌ Le hash sans sel permet la ré-identification par dictionnaire (rainbow
   table) — toujours saler
@@ -97,7 +101,7 @@ Trois notions que le RGPD distingue nettement, et qu'on confond souvent :
 | Substitution (avec map) | ✅ | ❌ (si pas de cache) | ✅ avec map persistée | ✅ |
 | Substitution (sans map) | ✅ | ❌ | ❌ | ✅ |
 | Généralisation | 🟡 | ❌ | 🟡 (catégorie) | ✅ |
-| Hash | ❌ | ❌ (avec sel) | ✅✅ | ✅ |
+| Hash | ❌ | 🟡 (re-hash possible si on a le sel) | ✅✅ | ✅ |
 
 ## Exemple minimal — stratégie hybride
 
@@ -122,7 +126,7 @@ def _hash(value: str) -> str:
 
 def anonymize_comments(text: str) -> str:
     """Stratégie hybride :
-       - PERSON → généralisation `[PERSON_<hash>]` (cohérence + irréversible)
+       - PERSON → généralisation `[PERSON_<hash>]` (cohérence, pas de table de correspondance)
        - EMAIL → suppression `[EMAIL]`
        - PHONE → suppression `[PHONE]`
        - IBAN → suppression `[IBAN]`
@@ -159,7 +163,8 @@ print(anonymize_comments(sample))
 
 Avec cette stratégie :
 - Tu **conserves la cohérence** (même Allison Hill → même hash partout)
-- Tu rends **irréversible** (pas de table de correspondance)
+- Tu évites une **table de correspondance** (rien à stocker ni à protéger en
+  plus ; ça reste de la pseudonymisation, pas une anonymisation)
 - Tu **gardes le contexte** lisible (« il y a 2 personnes différentes »)
 - Tu **supprimes** les PII fortement identifiantes (email, téléphone, IBAN)
 
@@ -199,10 +204,11 @@ Choisis **ta stratégie** parmi les 4 (ou un mix) et **défends-la** dans
 
 ## Pour aller plus loin
 
-- **CNIL — Anonymisation** : <https://www.cnil.fr/fr/lanonymisation-des-donnees-personnelles>
+- **CNIL — Anonymisation** : <https://www.cnil.fr/fr/technologies/lanonymisation-de-donnees-personnelles>
   (le guide officiel français — règles d'or, exemples)
 - **RGPD — Considérant 26** : définit ce qu'est « anonyme » vs « pseudonymisé »
-- **OWASP — Data Anonymization** : <https://owasp.org/www-community/Data_Anonymization>
+- **Wikipédia — Data anonymization** : <https://en.wikipedia.org/wiki/Data_anonymization>
+  (panorama des techniques)
 - **Microsoft Presidio — Anonymizer** : <https://microsoft.github.io/presidio/anonymizer/>
   (bonus, voir mini-cours 05)
 

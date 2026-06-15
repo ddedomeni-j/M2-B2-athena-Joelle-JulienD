@@ -160,7 +160,8 @@ Tu observeras :
 - **Liste des modèles spaCy FR/EN** : <https://spacy.io/models>
 - **Microsoft Presidio** (bonus M2-B2) : <https://microsoft.github.io/presidio/>
   — wrapper qui combine spaCy + regex + transformers, prêt à l'emploi
-- **OWASP — Data Anonymization** : <https://owasp.org/www-community/Data_Anonymization>
+- **Wikipédia — Data anonymization** : <https://en.wikipedia.org/wiki/Data_anonymization>
+  (panorama des techniques)
   — bonnes pratiques générales
 
 ## Vérification (checklist apprenant)

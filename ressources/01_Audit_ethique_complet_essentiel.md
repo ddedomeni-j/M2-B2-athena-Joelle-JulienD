@@ -184,7 +184,7 @@ En binôme, calcule :
 
 ## Pour aller plus loin
 
-- **Fairlearn — Disparity metrics** : <https://fairlearn.org/main/user_guide/assessment/disparity_metrics.html>
+- **Fairlearn — Disparity metrics** : <https://fairlearn.org/main/user_guide/assessment/common_fairness_metrics.html>
 - **Barocas, Hardt, Narayanan — *Fairness and ML*** chapitre 2 : <https://fairmlbook.org/>
   (livre gratuit en ligne, le passage sur l'intersectionnalité est éclairant)
 - **CNIL — IA et données personnelles** : <https://www.cnil.fr/fr/intelligence-artificielle/ia-comment-etre-en-conformite-avec-le-rgpd>
