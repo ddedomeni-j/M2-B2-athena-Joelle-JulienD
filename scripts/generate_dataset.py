@@ -23,10 +23,13 @@ commite pas la donnée, on la régénère.
 from __future__ import annotations
 
 import io
+import ssl
 import urllib.error
 import urllib.request
+from datetime import date
 from pathlib import Path
 
+import certifi
 import pandas as pd
 from faker import Faker
 
@@ -82,8 +85,12 @@ def load_adult_tabular() -> pd.DataFrame:
     Raises:
         RuntimeError: si aucune source n'est joignable.
     """
+    # Contexte SSL explicite via certifi : sur un venv frais (macOS/Windows
+    # notamment), urllib n'accède pas au magasin de certificats système et
+    # échoue sinon sur `CERTIFICATE_VERIFY_FAILED` alors que le réseau est sain.
+    ssl_context = ssl.create_default_context(cafile=certifi.where())
     try:
-        raw = urllib.request.urlopen(UCI_URL, timeout=20).read().decode()
+        raw = urllib.request.urlopen(UCI_URL, timeout=20, context=ssl_context).read().decode()
         df = pd.read_csv(
             io.StringIO(raw), header=None, names=COLUMNS,
             skipinitialspace=True, na_values="?",
@@ -91,8 +98,8 @@ def load_adult_tabular() -> pd.DataFrame:
         df = df.dropna(how="all")
         df["income"] = df["income"].str.replace(".", "", regex=False).str.strip()
         return df.reset_index(drop=True)
-    except (urllib.error.URLError, TimeoutError, OSError):
-        pass
+    except (urllib.error.URLError, TimeoutError, OSError) as uci_exc:
+        uci_error = uci_exc
 
     try:
         from sklearn.datasets import fetch_openml
@@ -111,10 +118,18 @@ def load_adult_tabular() -> pd.DataFrame:
         )
         df["income"] = df["income"].astype(str).str.replace(".", "", regex=False).str.strip()
         return df[COLUMNS].reset_index(drop=True)
+    except ImportError as exc:
+        raise RuntimeError(
+            "scikit-learn manquant : le fallback OpenML est indisponible et UCI "
+            f"a échoué ({uci_error}). Installe les dépendances : "
+            "pip install -r requirements.txt"
+        ) from exc
     except Exception as exc:  # noqa: BLE001 — on remonte une erreur claire
         raise RuntimeError(
-            "Impossible de charger Adult Income (UCI et OpenML injoignables). "
-            "Vérifie ta connexion réseau."
+            "Impossible de charger Adult Income depuis UCI ni OpenML.\n"
+            f"  - UCI   : {uci_error}\n"
+            f"  - OpenML: {exc}\n"
+            "Vérifie ta connexion (proxy/SSL) ou récupère les CSV via Discord."
         ) from exc
 
 
@@ -127,7 +142,12 @@ def _fake_pii(fake_en: Faker, fake_fr: Faker, french: bool) -> dict[str, str]:
         "email": fake_en.email(),  # emails toujours en format ASCII standard
         "phone": fake_en.numerify("###.###.####"),
         "iban": "****" + fake_en.numerify("####"),
-        "date": fake_en.date_between(start_date="-1y", end_date="today").isoformat(),
+        # Fenêtre de dates ANCRÉE (pas "-1y"/"today") : sinon les dates
+        # dériveraient à chaque jour d'exécution et casseraient la
+        # reproductibilité promise par la graine 42.
+        "date": fake_en.date_between_dates(
+            date_start=date(2025, 1, 1), date_end=date(2026, 1, 1)
+        ).isoformat(),
         "ticket": "HR-" + fake_en.numerify("#####"),
     }
 
