@@ -5,13 +5,8 @@
 pandas==2.2.2
 numpy==1.26.4
 
-# Génération du dataset (commentaires synthétiques PII, scripts/generate_dataset.py)
+# Faker : pour la stratégie d'anonymisation par substitution (faux noms cohérents)
 faker==25.9.1
-# certifi : magasin de certificats pour le téléchargement UCI via urllib
-# (évite CERTIFICATE_VERIFY_FAILED sur un venv frais macOS/Windows)
-certifi==2024.8.30
-# scikit-learn : fallback OpenML si UCI est injoignable (fetch_openml)
-scikit-learn==1.5.1
 
 # Visualisation
 matplotlib==3.9.2
