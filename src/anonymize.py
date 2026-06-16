@@ -31,11 +31,13 @@ def anonymize_comments(text: str) -> str:
     Returns:
         Texte anonymisé selon la stratégie choisie.
     """
-    # TODO 1 — Pass à spaCy pour détecter PERSON, GPE, ORG
+    # TODO 1 — Détecter les entités avec spaCy (PERSON, GPE, ORG)
     # doc = NLP(text)
     # for ent in doc.ents:
     #     if ent.label_ == "PERSON":
-    #         text = text.replace(ent.text, "[NAME]")  # exemple stratégie suppression
+    #         # ⬇️ Applique TA stratégie (suppression / généralisation /
+    #         #    substitution / hash) — à défendre dans reflexion.md
+    #         text = text.replace(ent.text, ...)  # à compléter
 
     # TODO 2 — Compléter avec regex (spaCy ne détecte ni email ni IBAN partiel ni tel)
     text = EMAIL_RE.sub("[EMAIL]", text)
