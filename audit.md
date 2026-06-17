@@ -15,7 +15,7 @@ Le nombre de valeurs manquantes étant faible on suggère d'utiliser une straté
 
 6. La feature "marital_status" est une donnée sensible qui croisée avec d'autres feautures comme "sexe" et "relationship" peut permettre de remonter à l'individu. On propose d'écrater cette feature
 
-7. les features "capital_loss" et "capital_gain" n'a pas d'utilité pour créer le modèle, elles peuvent être supprimées du modèle de données
+7. les features "capital_loss" et "capital_gain" n'ont pas d'utilité pour créer le modèle, elles peuvent être supprimées du modèle de données
 
 8. La feature "hours_per_week" présente une forte disparité : y a-t-il une erreur dans les données lorsqu'on trouve un revenu > à 50K associé à une ou deux heures par semaine. Il faudra valider avec le client qu'il ne s'agit pas d'une erreur
 
@@ -38,7 +38,7 @@ Le nombre de valeurs manquantes étant faible on suggère d'utiliser une straté
 - On conserve les features "age", "workclass", "education_num", "occupation income"
 - La feature "manager_comments" doit être retraitée pour anonymiser et extraire les informations pertinentes
 - La feature "hours_per_week" doit être revue et validée avec le client
-- Les features "fnlwgt", "marital_status", "relationship", "race", "sex", "capital_gain capital_loss", "native_country "education" ne seront pas incluses dans le modèle de données
+- Les features "fnlwgt", "marital_status", "relationship", "race", "sex", "capital_gain", "capital_loss", "native_country" et "education" ne seront pas incluses dans le modèle de données
 
 
 ---
