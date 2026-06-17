@@ -4,15 +4,13 @@
 > **Modèle Gebru et al. (2018), 7 sections, 2 pages max.**
 > Signée binôme.
 
-**Auteurs** : <prénom1>, <prénom2>
-**Date** : <date>
+**Auteurs** : <Joelle>, <Julien>
+**Date** : <17/06/2026>
 **Version** : v1.0.0
 
 ## 1. Motivation
 
-> Pourquoi ce dataset existe ? Qui l'a créé ?
-
-- ...
+Ce dataset a été créé par Ron Kohavi pour étudier les relations entre le revenu (2 tranches : "> 50K" et "< 50K") et les données issues du recensement de la population.
 
 ## 2. Composition
 
