@@ -95,7 +95,7 @@ M2-B2-athena-<prénom>/
 ---
 
 ```bash
-# 0. Cloner le projet et basculer sur la branche individuell
+# 0. Cloner le projet et basculer sur la branche individuelle
 git clone git@github.com:<owner>/<repo-name>.git
 cd <repo-name>
 git checkout <branche>
@@ -105,6 +105,7 @@ python src/anonymize.py
 
 # 2. Vérification
 jupyter notebook notebooks/M2-B2_anonymisation_<prénom>.ipynb
+
 ```
 
 ## 📚 Mini-cours d'appui
