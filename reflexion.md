@@ -47,6 +47,7 @@ Conserver ce contexte est indispensable pour la finalité du traitement (l'audit
 J'ai ciblé et masqué systématiquement les données à fort pouvoir identifiant (Direct & Indirect) :
 - **PERSON (`[INDIVIDU_X]`) :** Noms et prénoms des collaborateurs, managers et tiers. (séquentiel)
 - **EMAIL_ADDRESS (`[EMAIL]`) & PHONE_NUMBER (`[PHONE]`) :** Coordonnées de contact direct souvent insérées dans les notes de suivi.
+- **ORGANISATION (`[ORG]`) & GPE (`[GPE]`) :** Nom d'Organisation et données Geo-politiques
 - **IBAN / Données financières (`[IBAN]`) :** Masquage des structures bancaires et des masques textuels techniques de type `****1234` via une surcouche Regex, car ces données n'ont aucune valeur ajoutée pour un audit RH et présentent un risque critique en cas de fuite.
 
 - (optionnel) **Identifiants techniques et Numéros de tickets RH (`[TICKET_RH]`) :** Bien que non critiques au premier abord pour l'analyse sémantique, les numéros de tickets constituent des identifiants indirects majeurs. En cas de fuite de données, ils permettraient une réidentification croisée immédiate par simple jointure avec les tables de support ou de l'ERP RH.
